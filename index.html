@@ -2,6 +2,9 @@
 <html>
 <head>
 <title>Elegets Upload</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
 <style>
 body{
 background:black;
@@ -10,6 +13,7 @@ font-family:Arial;
 text-align:center;
 padding-top:100px;
 }
+
 button{
 padding:15px 30px;
 font-size:20px;
@@ -18,6 +22,10 @@ color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
+}
+
+input{
+margin:20px;
 }
 </style>
 </head>
@@ -28,24 +36,56 @@ cursor:pointer;
 
 <input type="file" id="file">
 
-<br><br>
+<br>
 
-<button onclick="uploadFile()">Upload</button>
+<button onclick="uploadFile()">Upload File</button>
 
 <p id="status"></p>
 
 <script>
-function uploadFile(){
-let file=document.getElementById('file').files[0];
+
+const supabaseUrl =
+'https://rahhfcawyjjlbtgfemcu.supabase.co'
+
+const supabaseKey =
+'sb_publishable_mTUuB6C4TSR9PyBPZ3kN6A_-514gHab'
+
+const client = supabase.createClient(
+supabaseUrl,
+supabaseKey
+)
+
+async function uploadFile(){
+
+const file =
+document.getElementById('file').files[0]
 
 if(!file){
-document.getElementById('status').innerHTML="Select a file";
-return;
+document.getElementById('status').innerHTML =
+'Select a file first'
+return
 }
 
-document.getElementById('status').innerHTML=
-"File Uploaded: " + file.name;
+const fileName =
+Date.now() + "-" + file.name
+
+const { data, error } =
+await client.storage
+.from('uploads')
+.upload(fileName, file)
+
+if(error){
+document.getElementById('status').innerHTML =
+'Upload Failed'
+console.log(error)
 }
+else{
+document.getElementById('status').innerHTML =
+'Upload Successful'
+}
+
+}
+
 </script>
 
 </body>
