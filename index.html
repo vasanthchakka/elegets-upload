@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Elegets Upload</title>
+<style>
+body{
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+padding-top:100px;
+}
+button{
+padding:15px 30px;
+font-size:20px;
+background:purple;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Elegets Cloud Upload</h1>
+
+<input type="file" id="file">
+
+<br><br>
+
+<button onclick="uploadFile()">Upload</button>
+
+<p id="status"></p>
+
+<script>
+function uploadFile(){
+let file=document.getElementById('file').files[0];
+
+if(!file){
+document.getElementById('status').innerHTML="Select a file";
+return;
+}
+
+document.getElementById('status').innerHTML=
+"File Uploaded: " + file.name;
+}
+</script>
+
+</body>
+</html>
